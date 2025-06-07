@@ -3,11 +3,16 @@ import { DataSource } from "typeorm";
 import express from "express";
 import router from "./router";
 import testRouter from "./router/v1/test";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const APP_PREFIX = "/api/v1";
-
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 const AppDataSource = new DataSource({
   type: "postgres",
   host: "localhost",
@@ -24,6 +29,10 @@ const AppDataSource = new DataSource({
 
 AppDataSource.initialize()
   .then(async () => {
+    app.use((req, res, next) => {
+      console.log("Time:", Date.now());
+      next();
+    });
     app.use("/api/v1", router);
     app.use(`${APP_PREFIX}/test`, testRouter);
     app.listen(PORT, () => {
@@ -31,9 +40,3 @@ AppDataSource.initialize()
     });
   })
   .catch((error) => console.log("Data Source initialization error: ", error));
-
-app.use("/api/v1", router);
-app.use(`${APP_PREFIX}/test`, testRouter);
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});

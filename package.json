@@ -11,12 +11,14 @@
     "migration:revert": "npx ts-node --esm node_modules/typeorm/cli.js migration:revert -d ormconfig.json"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.7"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.4",
